@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dlin - Personal Page</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --border:    #30363d;
+      --text:      #e6edf3;
+      --text-dim:  #8b949e;
+      --accent:    #58a6ff;
+      --accent2:   #3fb950;
+      --radius:    8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: .8; }
+
+    /* ===== Nav ===== */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(13, 17, 23, .85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    nav .inner {
+      max-width: 900px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    nav .logo { font-weight: 700; font-size: 1.1rem; color: var(--text); letter-spacing: -.5px; }
+    nav .logo span { color: var(--accent); }
+    nav ul { list-style: none; display: flex; gap: 1.5rem; }
+    nav ul a { color: var(--text-dim); font-size: .9rem; transition: color .2s; }
+    nav ul a:hover { color: var(--text); opacity: 1; }
+
+    /* ===== Hero ===== */
+    .hero {
+      max-width: 900px; margin: 0 auto;
+      padding: 8rem 2rem 4rem;
+      display: flex; align-items: center; gap: 2.5rem;
+      animation: fadeUp .6s ease both;
+    }
+    .avatar {
+      width: 120px; height: 120px; border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 3px var(--border);
+    }
+    .hero-text h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800; line-height: 1.15;
+      margin-bottom: .25rem;
+    }
+    .hero-text .location {
+      color: var(--text-dim); font-size: .95rem;
+      margin-bottom: .75rem;
+    }
+    .hero-text .location svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 2px; }
+    .hero-links { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .hero-link {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-size: .85rem; color: var(--text-dim);
+      padding: .35rem .75rem; border-radius: var(--radius);
+      border: 1px solid var(--border);
+      transition: all .2s;
+    }
+    .hero-link:hover { border-color: var(--accent); color: var(--text); opacity: 1; }
+    .hero-link svg { width: 15px; height: 15px; }
+
+    /* ===== Sections ===== */
+    section {
+      max-width: 900px; margin: 0 auto;
+      padding: 3.5rem 2rem;
+    }
+    section h2 {
+      font-size: 1.4rem; font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    section h2::before {
+      content: ""; display: block;
+      width: 4px; height: 1.2em; border-radius: 2px;
+      background: var(--accent);
+    }
+
+    /* ===== About ===== */
+    .about-text p { color: var(--text-dim); margin-bottom: 1rem; font-size: .95rem; }
+    .about-text strong { color: var(--text); }
+
+    /* ===== Education Timeline ===== */
+    .timeline { position: relative; padding-left: 1.5rem; }
+    .timeline::before {
+      content: ""; position: absolute; left: 0; top: 8px; bottom: 8px;
+      width: 2px; background: var(--border);
+    }
+    .timeline-item {
+      position: relative; margin-bottom: 2rem;
+      padding-left: 1.5rem;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before {
+      content: ""; position: absolute;
+      left: -1.5rem; top: 8px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--bg);
+      transform: translateX(-4px);
+    }
+    .timeline-item .school {
+      font-size: 1.05rem; font-weight: 600; margin-bottom: .15rem;
+    }
+    .timeline-item .major {
+      color: var(--text-dim); font-size: .9rem;
+    }
+    .timeline-item .period {
+      color: var(--text-dim); font-size: .8rem; margin-top: .2rem;
+      opacity: .7;
+    }
+
+    /* ===== Skills ===== */
+    .skills-group { margin-bottom: 1.5rem; }
+    .skills-group:last-child { margin-bottom: 0; }
+    .skills-group h3 {
+      font-size: .85rem; font-weight: 600; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: .05em;
+      margin-bottom: .6rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .skill-tags span {
+      padding: .35rem .8rem; border-radius: 999px;
+      font-size: .8rem; font-weight: 500;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text-dim);
+      transition: all .2s; cursor: default;
+    }
+    .skill-tags span:hover { border-color: var(--accent); color: var(--text); }
+
+    /* ===== Projects ===== */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .project-card h3 { font-size: 1rem; margin-bottom: .5rem; }
+    .project-card p { font-size: .85rem; color: var(--text-dim); margin-bottom: 1rem; }
+    .project-card .tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .project-card .tags span {
+      font-size: .75rem; padding: .15rem .5rem; border-radius: 999px;
+      background: rgba(88, 166, 255, .1); color: var(--accent);
+    }
+
+    /* ===== Contact ===== */
+    .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .contact-item {
+      display: flex; align-items: center; gap: .6rem;
+      padding: .8rem 1.2rem; border-radius: var(--radius);
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text-dim); font-size: .9rem;
+      transition: border-color .2s, color .2s;
+    }
+    .contact-item:hover { border-color: var(--accent); color: var(--text); }
+    .contact-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ===== Footer ===== */
+    footer {
+      max-width: 900px; margin: 0 auto;
+      padding: 2rem; text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim); font-size: .8rem;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 640px) {
+      .hero { flex-direction: column; text-align: center; padding-top: 6rem; gap: 1.5rem; }
+      .hero-links { justify-content: center; }
+      .avatar { width: 100px; height: 100px; }
+      nav ul { gap: 1rem; }
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="inner">
+      <div class="logo"><span>&lt;</span>dlin<span>/&gt;</span></div>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <img class="avatar" src="avatar.jpg" alt="dlin">
+    <div class="hero-text">
+      <h1>dlin</h1>
+      <p class="location">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        China / Beijing
+      </p>
+      <div class="hero-links">
+        <a class="hero-link" href="https://github.com/dlinwhat" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <a class="hero-link" href="mailto:dlnwhat@qq.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Email
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section id="about" class="reveal">
+    <h2>About</h2>
+    <div class="about-text">
+      <p>本科就读于<strong>北京大学医学部</strong>，<strong>预防医学</strong>专业。</p>
+      <p>正在学习 Python 和计算机科学基础。</p>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="reveal">
+    <h2>Education</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="school">北京大学医学部</div>
+        <div class="major">预防医学</div>
+        <div class="period">2024 - Present</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="reveal">
+    <h2>Skills</h2>
+
+    <div class="skills-group">
+      <h3>Programming</h3>
+      <div class="skill-tags">
+        <span>Python</span>
+        <span>C</span>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <h3>Web</h3>
+      <div class="skill-tags">
+        <span>HTML</span>
+        <span>CSS</span>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <h3>Tools</h3>
+      <div class="skill-tags">
+        <span>Git</span>
+        <span>GitHub</span>
+        <span>VSCode</span>
+        <span>Linux</span>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <h3>Other</h3>
+      <div class="skill-tags">
+        <span>Markdown</span>
+        <span>LaTeX</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="reveal">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>Python Learning</h3>
+        <p>My Python learning journey — exercises, notes, and mini projects from coursework and self-study.</p>
+        <div class="tags">
+          <span>Python</span>
+          <span>Exercises</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <h3>Personal Homepage</h3>
+        <p>This site you're looking at — a minimal dark-themed personal page hosted on GitHub Pages.</p>
+        <div class="tags">
+          <span>HTML</span>
+          <span>CSS</span>
+          <span>GitHub Pages</span>
+        </div>
+      </div>
+      <div class="project-card" style="border-style: dashed; display: flex; align-items: center; justify-content: center; min-height: 180px; color: var(--text-dim); font-size: .9rem;">
+        More coming soon...
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="reveal">
+    <h2>Contact</h2>
+    <div class="contact-links">
+      <a class="contact-item" href="mailto:dlnwhat@qq.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        dlnwhat@qq.com
+      </a>
+      <a class="contact-item" href="https://github.com/dlinwhat" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 dlin.</p>
+  </footer>
+
+  <!-- Scroll reveal script -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
